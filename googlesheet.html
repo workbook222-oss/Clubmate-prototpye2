@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clubmate - 스프레드시트 선택</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Pretendard', sans-serif;
+        }
+        .file-item:hover {
+            background-color: #eff6ff; /* blue-50 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+
+    <!-- Modal Container -->
+    <div class="w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <div class="p-8">
+            <div class="text-center mb-6">
+                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 mb-4">
+                    <i data-lucide="file-spreadsheet" class="h-8 w-8 text-blue-600"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900">어떤 지원서를 분석할까요?</h2>
+                <p class="mt-2 text-gray-600">회원님의 구글 드라이브에서 지원서 응답이 저장된 스프레드시트 파일을 선택해주세요.</p>
+            </div>
+
+
+            <!-- Search Bar -->
+            <div class="relative mb-4">
+                <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"></i>
+                <input type="text" placeholder="파일 이름으로 검색..." class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+            </div>
+
+
+            <!-- File List -->
+            <div class="border border-gray-200 rounded-lg max-h-80 overflow-y-auto">
+                <ul id="file-list" class="divide-y divide-gray-200">
+                    <!-- JS로 파일 목록이 채워집니다 -->
+                </ul>
+            </div>
+        </div>
+       
+        <!-- Footer Buttons -->
+        <div class="bg-gray-50 px-8 py-4 flex justify-end items-center space-x-4 border-t border-gray-200">
+             <button class="text-gray-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-200">취소</button>
+             <a href="dashboard.html" id="create-project-button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105 opacity-50 cursor-not-allowed">
+                선택한 시트로 프로젝트 생성
+            </a>
+        </div>
+    </div>
+
+
+    <script>
+        lucide.createIcons();
+
+
+        const MOCK_FILES = [
+            { id: 1, name: 'YFL 29기 지원서 (응답)', lastModified: '2025-08-18' },
+            { id: 2, name: 'SICA 30기 부원 모집 결과', lastModified: '2025-03-05' },
+            { id: 3, name: '2024년 2학기 팀 프로젝트 계획서', lastModified: '2024-09-20' },
+            { id: 4, name: '개인 가계부', lastModified: '2025-09-14' },
+            { id: 5, name: '25-1학기 이글스 지원서 (응답)', lastModified: '2025-09-01' }
+        ];
+
+
+        const fileListElement = document.getElementById('file-list');
+        const createProjectButton = document.getElementById('create-project-button');
+        let selectedFileId = null;
+
+
+        function renderFiles() {
+            fileListElement.innerHTML = '';
+            MOCK_FILES.forEach(file => {
+                const fileItem = document.createElement('li');
+                fileItem.className = `file-item p-4 flex items-center justify-between cursor-pointer transition ${selectedFileId === file.id ? 'bg-blue-100' : ''}`;
+                fileItem.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <i data-lucide="file-spreadsheet" class="w-6 h-6 text-green-600 flex-shrink-0"></i>
+                        <div>
+                            <p class="font-semibold text-gray-800">${file.name}</p>
+                            <p class="text-sm text-gray-500">수정일: ${file.lastModified}</p>
+                        </div>
+                    </div>
+                    <div class="radio-selector">
+                        <input type="radio" name="selectedFile" value="${file.id}" class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500" ${selectedFileId === file.id ? 'checked' : ''}>
+                    </div>
+                `;
+                fileItem.addEventListener('click', () => {
+                    selectedFileId = file.id;
+                    updateButtonState();
+                    renderFiles(); // Re-render to show selection state
+                });
+                fileListElement.appendChild(fileItem);
+            });
+            lucide.createIcons();
+        }
+       
+        function updateButtonState() {
+             if (selectedFileId) {
+                createProjectButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                createProjectButton.classList.add('opacity-100');
+            } else {
+                createProjectButton.classList.add('opacity-50', 'cursor-not-allowed');
+                createProjectButton.classList.remove('opacity-100');
+            }
+        }
+
+
+        renderFiles();
+    </script>
+</body>
+</html>
+
+
+

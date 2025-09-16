@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clubmate - 대시보드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .step-card, .dashboard-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .step-number {
+            background-color: #3b82f6;
+            color: white;
+            border-radius: 9999px;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        .hidden { display: none; }
+        .modal-overlay { background-color: rgba(0, 0, 0, 0.6); }
+        .applicant-card {
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .applicant-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+
+    <div class="min-h-screen p-4 sm:p-6 md:p-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <header class="mb-8 flex justify-between items-center">
+                <div>
+                    <a href="index.html" class="text-2xl sm:text-3xl font-bold" style="background: linear-gradient(to right, #4f46e5, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Clubmate</a>
+                    <p id="dashboard-subtitle" class="text-gray-500 mt-1">YFL 29기 신입회원 모집 대시보드</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="text-gray-500 hover:text-gray-700"><i data-lucide="help-circle"></i></button>
+                    <img class="w-10 h-10 rounded-full" src="https://placehold.co/100x100/E2E8F0/4A5568?text=J" alt="User profile">
+                </div>
+            </header>
+
+
+            <main id="main-content">
+                <!-- Onboarding Section (연동 전 화면) -->
+                <div id="onboarding-section">
+                    <header class="mb-8 text-center">
+                        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">Clubmate 시작하기</h1>
+                        <p class="text-gray-500 mt-2">단 2분이면, 구글 폼 지원서 관리가 완벽하게 자동화됩니다.</p>
+                    </header>
+                    <div class="space-y-8">
+                        <section class="step-card p-6 sm:p-8">
+                            <div class="flex items-start space-x-4">
+                                <div class="step-number">1</div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-gray-900">구글 폼 응답 시트 준비하기</h2>
+                                    <p class="text-gray-600 mt-1">먼저, 관리하고 계신 구글 폼의 '응답' 탭에서 스프레드시트 아이콘을 클릭해, 응답이 저장되는 시트를 열어주세요.</p>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="step-card p-6 sm:p-8">
+                            <div class="flex items-start space-x-4">
+                                <div class="step-number">2</div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-gray-900">구글 시트(Sheet) 연동하기</h2>
+                                    <p class="text-gray-600 mt-1">아래 버튼을 눌러, 위에서 확인한 응답 시트 파일을 선택해주세요.</p>
+                                </div>
+                            </div>
+                            <div class="mt-6 border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                                <button id="connect-button" class="w-full max-w-xs mx-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center space-x-2 text-lg">
+                                    <i data-lucide="link"></i>
+                                    <span>Google Sheets와 연동 시작하기</span>
+                                </button>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+
+                <!-- Dashboard Section (연동 후 화면) -->
+                <div id="dashboard-section" class="hidden space-y-8">
+                     <section class="dashboard-card p-6">
+                        <div class="flex flex-col sm:flex-row items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <img src="https://placehold.co/40x40/34A853/FFFFFF?text=GS" alt="Google Sheets Icon" class="rounded-md">
+                                <div>
+                                    <p class="font-semibold text-gray-800">YFL_29기_지원서(응답)</p>
+                                    <div class="flex items-center text-sm text-green-600 font-medium">
+                                        <div class="w-2 h-2 bg-green-500 rounded-full mr-1.5 animate-pulse"></div>
+                                        실시간 연동 완료
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="dashboard-card p-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="step-number">1</div>
+                            <div>
+                                <h2 class="text-xl font-bold text-gray-900">지원자 목록 및 서류 평가</h2>
+                                <p class="text-gray-600 mt-1">지원자 카드를 클릭하여 상세 내용을 확인하고 합격/불합격을 선택하세요.</p>
+                            </div>
+                        </div>
+                         <div class="mt-6 p-4 bg-gray-50 rounded-lg border flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                            <div class="flex space-x-4 text-center">
+                                <div><p class="text-2xl font-bold">4</p><p class="text-sm text-gray-500">총 지원자</p></div>
+                                <div><p class="text-2xl font-bold text-blue-600">2</p><p class="text-sm text-gray-500">서류 합격</p></div>
+                                 <div><p class="text-2xl font-bold text-red-600">1</p><p class="text-sm text-gray-500">서류 불합격</p></div>
+                                <div><p class="text-2xl font-bold text-gray-600">1</p><p class="text-sm text-gray-500">미평가</p></div>
+                            </div>
+                             <div class="flex items-center space-x-2 w-full md:w-auto">
+                                <input type="text" placeholder="이름, 학과 검색..." class="border rounded-md p-2 w-full md:w-auto">
+                                <button class="bg-white hover:bg-gray-100 text-gray-700 p-2 border rounded-md shadow-sm"><i data-lucide="filter"></i></button>
+                            </div>
+                        </div>
+                        <div id="applicant-grid" class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            <!-- JS will populate this -->
+                        </div>
+                    </section>
+                    <section class="dashboard-card p-6">
+                         <div class="flex items-start space-x-4">
+                            <div class="step-number">2</div>
+                            <div>
+                                <h2 class="text-xl font-bold text-gray-900">AI 면접 스케줄링 및 결과 통보</h2>
+                                <p class="text-gray-600 mt-1">서류 합격자 대상 시간표 생성 후, 모든 지원자에게 결과를 통보합니다.</p>
+                            </div>
+                        </div>
+                         <div class="mt-6 p-6 bg-gray-50 rounded-lg border text-center">
+                            <button class="w-full max-w-md mx-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center space-x-2 text-lg">
+                                <i data-lucide="bot"></i>
+                                <span>AI로 면접 시간표 자동 생성</span>
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+   
+    <!-- Modals -->
+     <div id="mapping-modal" class="fixed inset-0 modal-overlay overflow-y-auto h-full w-full hidden flex items-center justify-center p-4">
+        <div class="relative p-8 border w-full max-w-3xl shadow-lg rounded-2xl bg-white">
+            <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 mb-4">
+                    <i data-lucide="scan-line" class="h-8 w-8 text-blue-600"></i>
+                </div>
+                <h3 class="text-2xl leading-6 font-bold text-gray-900">AI 지원서 항목 자동 분류</h3>
+                <p class="mt-2 text-gray-500">AI가 회원님의 지원서 항목을 분석했습니다. 각 항목이 올바르게 분류되었는지 확인 후 저장해주세요.</p>
+            </div>
+            <div class="mt-8 max-h-[60vh] overflow-y-auto pr-2">
+                <div class="space-y-4" id="mapping-table">
+                    <!-- JS for mapping table will be populated here -->
+                </div>
+            </div>
+            <div class="items-center mt-8 text-center">
+                <button id="save-mapping-button" class="w-full max-w-xs mx-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center space-x-2 text-lg">
+                    <i data-lucide="check-circle"></i>
+                    <span>확인 및 저장하기</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="applicant-modal" class="fixed inset-0 modal-overlay overflow-y-auto h-full w-full hidden flex items-center justify-center p-4">
+         <div class="relative p-8 border w-full max-w-2xl shadow-lg rounded-2xl bg-white">
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center space-x-4">
+                    <img id="modal-applicant-img" class="w-16 h-16 rounded-full" src="" alt="Applicant photo">
+                    <div>
+                        <h3 id="modal-applicant-name" class="text-2xl leading-6 font-bold text-gray-900"></h3>
+                        <p id="modal-applicant-major" class="text-gray-500"></p>
+                    </div>
+                </div>
+                <button onclick="closeApplicantModal()"><i data-lucide="x"></i></button>
+            </div>
+            <div id="modal-applicant-content" class="mt-4 max-h-[60vh] overflow-y-auto pr-4 space-y-6">
+                <!-- JS will populate this -->
+            </div>
+            <div class="mt-8 pt-6 border-t flex justify-end space-x-4">
+                <button class="bg-red-100 hover:bg-red-200 text-red-700 font-bold py-3 px-6 rounded-lg">
+                    <span>서류 불합격</span>
+                </button>
+                <button class="bg-green-100 hover:bg-green-200 text-green-700 font-bold py-3 px-6 rounded-lg">
+                    <span>서류 합격</span>
+                </button>
+            </div>
+         </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            const onboardingSection = document.getElementById('onboarding-section');
+            const dashboardSection = document.getElementById('dashboard-section');
+            const applicantModal = document.getElementById('applicant-modal');
+            const mappingModal = document.getElementById('mapping-modal');
+
+
+            const MOCK_APPLICANTS = [
+                { id: 1, name: '장준혁', major: 'UIC ECON / 3학년 1학기', status: 'passed', q1: '대학생활에서 제게 가장 큰 영향을 준 경험은...', q2: '금융업계에 대한 제 관심은...', q3: '제가 희망하는 진출 분야는 S&T입니다...', hope_field: 'S&T', certifications: '투자자산운용사', available_times: ['[토] 14:00-15:00', '[일] 19:00-20:00'] },
+                { id: 2, name: '김민준', major: '경영학과 / 2학년 2학기', status: 'failed', q1: '저는 축구 동아리에서 주장을 맡으며...', q2: '어릴 적부터 숫자에 관심이 많았고...', q3: '저는 IB 분야에서 M&A 전문가가...', hope_field: 'IB', certifications: '컴퓨터활용능력 1급', available_times: ['[토] 09:00-10:00', '[일] 13:00-14:00'] },
+                { id: 3, name: '이세영', major: '컴퓨터과학과 / 4학년 1학기', status: 'pending', q1: '교내 해커톤에 참여하여...', q2: '저는 기술이 금융을 혁신하는...', q3: '저는 퀀트(Quant) 개발자로서...', hope_field: 'Quant', certifications: 'SQLD', available_times: ['[토] 13:00-14:00','[일] 09:00-10:00'] },
+                { id: 4, name: '박서연', major: '심리학과 / 3학년 2학기', status: 'passed', q1: '저는 심리학 연구 프로젝트에서...', q2: '사람들의 투자 심리를 분석하고...', q3: '저는 애널리스트(리서치)가 되어...', hope_field: '리서치', certifications: '사회조사분석사 2급', available_times: ['[토] 18:00-19:00','[일] 14:00-15:00'] }
+            ];
+             const MOCK_SHEET_HEADERS = [ '타임스탬프', '성명', '연락처', '대학생활 중, 본인에게 가장 큰 영향을 준 경험...', '금융업계로의 진출을 희망하는 이유...', '구체적인 희망진출분야와 그 이유...', '[토] 14:00-15:00', '[토] 15:00-16:00', '[일] 18:00-19:00', '[일] 19:00-20:00' ];
+
+
+            const connectButton = document.getElementById('connect-button');
+            if (connectButton) {
+                connectButton.addEventListener('click', () => {
+                    setTimeout(() => { openMappingModal(); }, 1000);
+                });
+            }
+
+
+            function openMappingModal() {
+                const mappingTable = document.getElementById('mapping-table');
+                if (!mappingTable) return;
+                mappingTable.innerHTML = '';
+                const mappingOptions = [
+                    { value: 'applicant_name', label: '👤 지원자 이름' }, { value: 'contact', label: '📞 연락처' }, { value: 'essay_question', label: '✍️ 자기소개서 문항' }, { value: 'other_info', label: 'ℹ️ 기타 정보' }, { value: 'interview_slot', label: '⏰ 면접 가능 시간' }, { value: 'ignore', label: '🙈 무시하기' },
+                ];
+                MOCK_SHEET_HEADERS.forEach(header => {
+                    const aiClassification = aiAutoClassify(header);
+                    const selectOptions = mappingOptions.map(opt => `<option value="${opt.value}" ${aiClassification === opt.value ? 'selected' : ''}>${opt.label}</option>`).join('');
+                    const rowHtml = `<div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center bg-gray-50 p-4 rounded-lg border"><div class="text-gray-700 font-medium truncate" title="${header}"><span class="text-gray-400 mr-2">원본 질문:</span> ${header}</div><div class="flex items-center space-x-2"><span class="text-blue-600"><i data-lucide="arrow-right"></i></span><select class="block w-full p-2 border border-gray-300 rounded-md shadow-sm">${selectOptions}</select></div></div>`;
+                    mappingTable.insertAdjacentHTML('beforeend', rowHtml);
+                });
+                lucide.createIcons();
+                mappingModal.classList.remove('hidden');
+            }
+           
+            const saveMappingButton = document.getElementById('save-mapping-button');
+            if (saveMappingButton) {
+                saveMappingButton.addEventListener('click', () => {
+                    if (mappingModal) mappingModal.classList.add('hidden');
+                    if (onboardingSection) onboardingSection.classList.add('hidden');
+                    if (dashboardSection) dashboardSection.classList.remove('hidden');
+                    initializeDashboard();
+                });
+            }
+
+
+            function aiAutoClassify(header) {
+                header = header.toLowerCase();
+                if (header.includes('이름') || header.includes('성함')) return 'applicant_name';
+                if (header.includes('연락처') || header.includes('전화')) return 'contact';
+                if (header.includes('시간') || header.includes('요일') || header.match(/\[.*\]/)) return 'interview_slot';
+                if (header.length > 20) return 'essay_question';
+                if (header.includes('타임스탬프')) return 'ignore';
+                return 'other_info';
+            }
+
+
+            function initializeDashboard() {
+                const grid = document.getElementById('applicant-grid');
+                if (!grid) return;
+                grid.innerHTML = MOCK_APPLICANTS.map(applicant => {
+                    let statusBadge = '';
+                    if (applicant.status === 'passed') {
+                        statusBadge = `<div class="absolute top-3 right-3 bg-blue-100 text-blue-700 text-xs font-semibold px-2 py-0.5 rounded-full">합격</div>`;
+                    } else if (applicant.status === 'failed') {
+                         statusBadge = `<div class="absolute top-3 right-3 bg-red-100 text-red-700 text-xs font-semibold px-2 py-0.5 rounded-full">불합격</div>`;
+                    }
+                    return `<div class="applicant-card dashboard-card p-4 relative" onclick="openApplicantModal(${applicant.id})">${statusBadge}<div class="flex items-center space-x-3"><img class="w-12 h-12 rounded-full" src="https://placehold.co/100x100/E2E8F0/4A5568?text=${applicant.name.charAt(0)}" alt="profile"><div><p class="font-bold text-gray-900">${applicant.name}</p><p class="text-sm text-gray-500">${applicant.major}</p></div></div><p class="mt-3 text-sm text-gray-600 line-clamp-3">${applicant.q1}</p></div>`;
+                }).join('');
+            }
+           
+            window.openApplicantModal = function(id) {
+                const applicant = MOCK_APPLICANTS.find(a => a.id === id);
+                if(applicant && applicantModal) {
+                    const modalApplicantImg = document.getElementById('modal-applicant-img');
+                    const modalApplicantName = document.getElementById('modal-applicant-name');
+                    const modalApplicantMajor = document.getElementById('modal-applicant-major');
+                    const modalContent = document.getElementById('modal-applicant-content');
+
+
+                    // Header part of the modal
+                    let headerHtml = `
+                        <div class="flex justify-between items-center mb-6">
+                            <div class="flex items-center space-x-4">
+                                <img class="w-16 h-16 rounded-full" src="https://placehold.co/100x100/E2E8F0/4A5568?text=${applicant.name.charAt(0)}" alt="Applicant photo">
+                                <div>
+                                    <h3 class="text-2xl leading-6 font-bold text-gray-900">${applicant.name}</h3>
+                                    <p class="text-gray-500">${applicant.major}</p>
+                                </div>
+                            </div>
+                            <button onclick="closeApplicantModal()"><i data-lucide="x"></i></button>
+                        </div>
+                    `;
+
+
+                    const availableTimesHtml = applicant.available_times.map(time => `<span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 mb-2 px-3 py-1.5 rounded-full">${time}</span>`).join('');
+                   
+                    // Content part of the modal
+                    let contentHtml = `
+                        ${headerHtml}
+                        <div class="space-y-6 max-h-[60vh] overflow-y-auto pr-4">
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2 flex items-center"><i data-lucide="clock" class="w-4 h-4 mr-2"></i>면접 가능 시간</h4>
+                                <div class="flex flex-wrap">${availableTimesHtml}</div>
+                            </div>
+                            <div class="border-t pt-6">
+                                <h4 class="font-semibold text-gray-800">1. 대학생활 중, 본인에게 가장 큰 영향을 준 경험...</h4>
+                                <p class="mt-2 text-gray-600 bg-gray-50 p-3 rounded-md">${applicant.q1}</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">2. 금융업계로의 진출을 희망하는 이유...</h4>
+                                <p class="mt-2 text-gray-600 bg-gray-50 p-3 rounded-md">${applicant.q2}</p>
+                            </div>
+                             <div>
+                                <h4 class="font-semibold text-gray-800">3. 구체적인 희망진출분야와 그 이유...</h4>
+                                <p class="mt-2 text-gray-600 bg-gray-50 p-3 rounded-md">${applicant.q3}</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 pt-4">
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">희망 진출 분야</h4>
+                                    <p class="mt-2 text-lg font-bold text-blue-600">${applicant.hope_field}</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">보유 자격증</h4>
+                                    <p class="mt-2 text-lg font-bold text-blue-600">${applicant.certifications}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+
+                    if (modalContent) {
+                       modalContent.parentElement.innerHTML = `
+                           ${contentHtml}
+                           <div class="mt-8 pt-6 border-t flex justify-end space-x-4">
+                               <button class="bg-red-100 hover:bg-red-200 text-red-700 font-bold py-3 px-6 rounded-lg"><span>서류 불합격</span></button>
+                               <button class="bg-green-100 hover:bg-green-200 text-green-700 font-bold py-3 px-6 rounded-lg"><span>서류 합격</span></button>
+                           </div>
+                       `;
+                    }
+                   
+                    lucide.createIcons();
+                    applicantModal.classList.remove('hidden');
+                }
+            }
+            window.closeApplicantModal = function() {
+                if(applicantModal) applicantModal.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+

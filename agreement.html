@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clubmate - 연동하기</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Pretendard', sans-serif;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #4f46e5, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+
+    <div class="min-h-screen flex flex-col items-center justify-center px-4">
+        <div class="text-center mb-10">
+            <a href="index.html" class="text-4xl font-bold gradient-text">Clubmate</a>
+        </div>
+
+
+        <div class="w-full max-w-lg bg-white rounded-2xl shadow-xl p-8 sm:p-10">
+            <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 mb-6">
+                    <i data-lucide="link" class="h-8 w-8 text-blue-600"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800">마지막 한 단계만 남았어요!</h2>
+                <p class="mt-3 text-gray-600">Clubmate의 모든 기능을 사용하려면, 회원님의 구글 스프레드시트 접근 권한이 필요합니다.</p>
+            </div>
+           
+            <div class="mt-8 flex items-center justify-center space-x-4">
+                <img class="w-16 h-16" src="https://placehold.co/100x100/E0E7FF/4338CA?text=CM" alt="Clubmate Logo">
+                <i data-lucide="arrow-right-left" class="w-8 h-8 text-gray-400"></i>
+                <img class="w-16 h-16" src="https://placehold.co/100x100/C8E6C9/34A853?text=GS" alt="Google Sheets Logo">
+            </div>
+
+
+            <div class="mt-8 bg-gray-50 rounded-lg p-6 border border-gray-200">
+                <h3 class="font-semibold text-gray-800">이 권한으로 다음 작업을 할 수 있습니다:</h3>
+                <ul class="mt-4 space-y-3 text-gray-600">
+                    <li class="flex items-start">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3 flex-shrink-0 mt-0.5"></i>
+                        <span>회원님의 구글 드라이브에 있는 **스프레드시트 목록을 확인**하여, 분석할 지원서 파일을 선택할 수 있습니다.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3 flex-shrink-0 mt-0.5"></i>
+                        <span>선택된 스프레드시트에 **새로운 지원서가 추가될 때마다 실시간으로 데이터를 가져옵니다.**</span>
+                    </li>
+                </ul>
+                <p class="mt-4 text-xs text-gray-500">* Clubmate는 회원님이 허용한 파일 외에는 절대 접근하지 않으며, 회원님의 정보는 안전하게 보호됩니다.</p>
+            </div>
+
+
+
+
+            <div class="mt-8">
+                <a href="library.html" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 font-bold transition-transform transform hover:scale-105">
+                    권한 동의 및 계속하기
+                </a>
+            </div>
+        </div>
+        <p class="mt-8 text-center text-sm text-gray-500">
+            <a href="library.html" class="font-medium text-gray-500 hover:text-gray-700">나중에 하기</a>
+        </p>
+    </div>
+
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
+
+
+
