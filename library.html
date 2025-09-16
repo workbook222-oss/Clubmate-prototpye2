@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clubmate - 나의 프로젝트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #4f46e5, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .project-card {
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="min-h-screen p-4 sm:p-6 md:p-8">
+        <div class="max-w-7xl mx-auto">
+                        <header class="mb-10 flex justify-between items-center">
+                <div>
+                    <a href="index.html" class="text-2xl sm:text-3xl font-bold gradient-text">Clubmate</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="text-gray-500 hover:text-gray-700"><i data-lucide="help-circle"></i></button>
+                    <img class="w-10 h-10 rounded-full" src="https://placehold.co/100x100/E2E8F0/4A5568?text=J" alt="User profile">
+                </div>
+            </header>
+
+            <main>
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
+                    <div>
+                        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">나의 모집 프로젝트</h1>
+                        <p class="mt-2 text-gray-600">장준혁님, 환영합니다! 과거의 모집 내역을 확인하거나 새로운 모집을 시작하세요.</p>
+                   </div>
+                    <a href="googlesheet.html" class="mt-4 sm:mt-0 w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center space-x-2 transition-transform transform hover:scale-105">
+             _
